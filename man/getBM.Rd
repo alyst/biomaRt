@@ -4,7 +4,7 @@
 \description{This function is the main biomaRt query function.  Given a set of filters and corresponding values, it retrieves the user specified attributes from the BioMart database one is connected to.}
 \usage{getBM(attributes, filters = "", values = "", mart, curl = NULL, 
 checkFilters = TRUE, verbose = FALSE, uniqueRows = TRUE, bmHeader = FALSE,
-quote = "\"", useCache = TRUE)}
+quote = "\"", useCache = TRUE, curl.opts = list())}
 \value{A \code{data.frame}. There is no implicit mapping between its rows and the function arguments (e.g. \code{filters}, \code{values}), therefore make sure to have the relevant identifier(s) returned by specifying them in \code{attributes}. See Examples.}
 
 \arguments{
@@ -25,6 +25,7 @@ quote = "\"", useCache = TRUE)}
  Setting to \code{FALSE} will disable reading and writing of the cache.  This
  argument is likely to disappear after the cache functionality has been tested
  more thoroughly.}
+ \item{curl.opts}{Options to pass to \code{RCurl::postForm()}}
 }
 
 \author{Steffen Durinck} 

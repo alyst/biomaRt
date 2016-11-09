@@ -521,7 +521,7 @@ filterType <- function(filter, mart){
 
 getBM <- function(attributes, filters = "", values = "", mart, curl = NULL, 
                   checkFilters = TRUE, verbose=FALSE, uniqueRows=TRUE, bmHeader=FALSE, quote="\"",
-                  useCache = TRUE){
+                  useCache = TRUE, curl.opts = list()){
     
     ## check the arguments are all valid
     martCheck(mart)
@@ -626,7 +626,7 @@ getBM <- function(attributes, filters = "", values = "", mart, curl = NULL,
         tf <- file.path(tempdir(), paste0("biomaRt_", chunk_hash, ".rds"))
         if(!file.exists(tf)) {
             postRes <- .submitQueryXML(host = paste0(martHost(mart), sep),
-                                   query = fullXmlQuery)
+                                   query = fullXmlQuery, .opts=curl.opts)
             result <- .processResults(postRes, mart = mart, sep = sep, fullXmlQuery = fullXmlQuery,
                                       verbose = verbose, callHeader = callHeader, 
                                       quote = quote, attributes = attributes)
@@ -659,7 +659,7 @@ getBM <- function(attributes, filters = "", values = "", mart, curl = NULL,
 #getLDS: Multiple dataset linking #
 ###################################
 
-getLDS <- function(attributes, filters = "", values = "", mart, attributesL, filtersL = "", valuesL = "", martL, verbose = FALSE, uniqueRows = TRUE, bmHeader = TRUE) {
+getLDS <- function(attributes, filters = "", values = "", mart, attributesL, filtersL = "", valuesL = "", martL, verbose = FALSE, uniqueRows = TRUE, bmHeader = TRUE, curl.opts = list()) {
     
     martCheck(mart)
     martCheck(martL)
@@ -796,7 +796,7 @@ getLDS <- function(attributes, filters = "", values = "", mart, attributesL, fil
     sep <- ifelse(grepl(x = martHost(mart), pattern = ".+\\?.+"), "&", "?")
     ## POST query
     postRes <- .submitQueryXML(host = paste0(martHost(mart), sep),
-                               query = xmlQuery)
+                               query = xmlQuery, .opts = curl.opts)
     
     ## 10-01-2014
     if(length(grep("^Query ERROR", postRes))>0L)
@@ -834,7 +834,7 @@ getLDS <- function(attributes, filters = "", values = "", mart, attributesL, fil
 #getXML
 ######################
 
-getXML <- function(host="http://www.ensembl.org/biomart/martservice?", xmlquery){
+getXML <- function(host="http://www.ensembl.org/biomart/martservice?", xmlquery, curl.opts = list()){
     
     ## Deprecated   29-01-2018
     ## Defunct      03-06-2019

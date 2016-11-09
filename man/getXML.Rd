@@ -3,11 +3,12 @@
 \title{Retrieves information from the BioMart database using an XML query}
 \description{DEPRECATED! - This function is a low level query function bypassing lots of biomaRts internal controls.  It allows for a direct XML query to a known BioMart webservice host.}
 
-\usage{getXML(host="http://www.ensembl.org/biomart/martservice?", xmlquery)}
+\usage{getXML(host="http://www.ensembl.org/biomart/martservice?", xmlquery, curl.opts=list())}
 
 \arguments{
   \item{host}{URL to BioMart webservice, is set to http://www.ensembl.org/biomart/martservice? by default}
   \item{xmlquery}{XML query that needs to be send to the webservice}
+  \item{curl.opts}{Options to pass to \code{RCurl::postForm()}}
 }
 
 \details{This function has now been deprecated.  Similar functionality can be 
