@@ -811,6 +811,10 @@ getLDS <- function(attributes, filters = "", values = "", mart, attributesL, fil
             result = result[,-ncol(result),drop=FALSE]
         ## 10 - 01 - 2014
         res_attributes <- c(attributes,attributesL)
+        if (!is.null(names(res_attributes))){ #override attribute names with the one`s explicitly provided by the user
+            user_names_mask <- !is.na(names(res_attributes)) & names(res_attributes)!=''
+            res_attributes[user_names_mask] <- names(res_attributes)[user_names_mask]
+        }
         if(!(is(result, "data.frame") && (ncol(result)==length(res_attributes)))) {
             print(head(result))
             stop("The query to the BioMart webservice returned an invalid result: the number of columns in the result table does not equal the number of attributes in the query. \nPlease report this on the support site at http://support.bioconductor.org")

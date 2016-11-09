@@ -32,6 +32,13 @@
     }
     ## now put things in the order we actually asked for the attributes in
     result <- result[, match(att[matches,1], attributes), drop=FALSE]
+    ## override attribute names with the one`s explicitly provided by the user
+    if (!is.null(names(attributes))) {
+      user_names_mask <- !is.na(names(attributes)) & names(attributes)!=''
+      resultNames <- colnames(result)
+      resultNames[user_names_mask] <- names(attributes)[user_names_mask]
+      colnames(result) <- resultNames
+    }
     
     return(result)
 }
